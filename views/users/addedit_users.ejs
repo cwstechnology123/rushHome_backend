@@ -1,0 +1,59 @@
+<div class="container-fluid">
+<h1 class="mt-5"></h1>
+    <div class="row ml-4">
+        <div class="clearfix float-right m-2"><a class="text-dark" href="<%= backURL %>"><i class="fas fa-angle-left"></i> Back</a></div>
+       <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table mr-1"></i><%= title %></div>
+        <% if(locals.flash_messages.success_messages){ %>
+            <div class="alert alert-success ml-4" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success! </strong><%= flash_messages.success_messages %>
+            </div>
+        <% } %>
+        <% if(locals.flash_messages.error_messages){ %>
+            <div class="alert alert-danger ml-4" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error! </strong><%= flash_messages.error_messages %>
+            </div>
+        <% } %>
+           <div class="card-body">
+                <form  method="POST" action="/admin/users/add/<%= editUser != '' ? editUser.id : ''  %>">
+                    <% if(editUser != ''){ %>
+                    <input type="hidden" name="id" value="<%=editUser != '' ? editUser.id : ''  %>">
+                    <% } %>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputFirstName">First Name <span class='error'>*</span></label>
+                                <input class="form-control py-4" id="first_name" name="first_name" type="text" placeholder="Enter first name" value="<%=editUser != '' ? editUser.first_name : data.first_name  %>"/>
+                                <% if (errors.first_name) { %>
+                                  <div class="error"><%= errors.first_name.msg %></div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputLastName">Last Name
+                                </label>
+                                <input class="form-control py-4" id="last_name" name="last_name"type="text" placeholder="Enter last name" value="<%=editUser != '' ? editUser.last_name : data.last_name  %>"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputEmailAddress">Email <span class='error'>*</span></label>
+                                <input class="form-control py-4" id="inputEmailAddress" name="email" type="email" aria-describedby="emailHelp" placeholder="Enter email address" value="<%=editUser != '' ? editUser.email : data.email  %>" <%=editUser != '' ? 'readonly' : ''  %>/>
+                                <% if (errors.email) { %>
+                                  <div class="error"><%= errors.email.msg %></div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-5 mb-0"><button class="btn btn-primary btn-block mb-3"><%=editUser != '' ? 'Update' : 'Save'  %></button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

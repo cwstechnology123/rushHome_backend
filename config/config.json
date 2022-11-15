@@ -1,0 +1,44 @@
+{
+  "development": {
+  "url" : "/growth-operating-system",
+  "username": "root",
+  "password": "",
+  "database": "growth-operating-system",
+  "host": "127.0.0.1",
+  "port": 3306,
+  "dialect": "mysql",
+  "define": {
+    "timestamps": true,
+    "underscored": true,
+    "underscoredAll": true
+  }
+  },
+  "test": {
+  "url" : "/growth-operating-system",
+  "username": "root",
+  "password": "",
+  "database": "growth-operating-system",
+  "host": "127.0.0.1",
+  "port": 3306,
+  "dialect": "mysql",
+  "define": {
+    "timestamps": true,
+    "underscored": true,
+    "underscoredAll": true
+  }
+  },
+  "production": {
+  "url" : "/growth-operating-system",
+  "username": "debatest_debate",
+  "password": "CL+OzPj4Ydpe",
+  "database": "debatest_therapet",
+  "host": "192.185.57.29",
+  "port": 3306,
+   "dialect": "mysql",
+   "define": {
+    "timestamps": true,
+    "underscored": true,
+    "underscoredAll": true
+  }
+  }
+}

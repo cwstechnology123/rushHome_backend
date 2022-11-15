@@ -1,0 +1,14 @@
+<div class="container-fluid">
+	<div class="row ml-4">
+		<h1 class="ml-4"><%= message %></h1>
+		<h2 class="ml-4" ><%= error.status %></h2>
+		<pre><%= error.stack %></pre>
+	</div>
+</div>
+
+<script>
+  setTimeout(function () {
+     // after 2 seconds
+     window.location = "/admin/dashboard";
+  }, 2000)
+</script>
