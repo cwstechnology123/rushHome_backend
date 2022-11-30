@@ -14,9 +14,35 @@ Properties.updatePropertiesObj = (currentObj,PropertiesCallBackFun) => {
   for (let i=0;i<currentObj.length;i++) {
 
      promises.push({
-                      id:currentObj[i].id,
-                      created:moment(currentObj[i].created_at).tz(tzone).format('YYYY-MM-DD HH:mm:ss'),
-                });
+                        id:currentObj[i].id,
+                        listingId: currentObj[i].field_ListingId,
+                        description: currentObj[i].field_PublicRemarks,
+                        mlsStatus: currentObj[i].field_MlsStatus,
+                        //closePrice: currentObj[i].field_ClosePrice,
+                        listPrice: currentObj[i].field_ListPrice,
+                        originalListPrice: currentObj[i].field_OriginalListPrice,
+                        county: currentObj[i].field_County,
+                        city: currentObj[i].field_City,
+                        fullStreetAddress: currentObj[i].field_FullStreetAddress,
+                        _geoloc: {
+                            lat: currentObj[i].field_Latitude,
+                            lng: currentObj[i].field_Longitude,
+                        },
+                        geography: {
+                            lat: currentObj[i].field_Latitude,
+                            lng: currentObj[i].field_Longitude,
+                        },
+                        listingLocale: currentObj[i].field_ListingLocale,
+                        mapURL: currentObj[i].field_MapURL,
+                        bathroomsTotal: currentObj[i].field_BathroomsTotalInteger,
+                        bedroomsTotal: currentObj[i].field_BedroomsTotal,
+                        netSquareFeet: currentObj[i].field_NetSquareFeet,
+                        load: currentObj[i].field_Load,
+                        listAgentEmail: currentObj[i].field_ListAgentEmail,
+                        coverImage: currentObj[i].field_ListPictureURL,
+                        images: [],
+                        //created:moment(currentObj[i].created_at).tz(tzone).format('YYYY-MM-DD HH:mm:ss'),
+                    });
   }
   Promise.all(promises)
     .then(() => {
