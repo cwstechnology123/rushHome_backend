@@ -1,6 +1,7 @@
 const sql = require("../config/db_connection.js");
 const moment = require('moment-timezone');
 const tzone = "Asia/Kolkata";
+var slug = require('slug')
 
 // constructor
 const Properties = function(user) {
@@ -41,6 +42,7 @@ Properties.updatePropertiesObj = (currentObj,PropertiesCallBackFun) => {
                         listAgentEmail: currentObj[i].field_ListAgentEmail,
                         coverImage: currentObj[i].field_ListPictureURL,
                         images: [],
+                        slug: slug(currentObj[i].field_FullStreetAddress+"-"+currentObj[i].id),
                         //created:moment(currentObj[i].created_at).tz(tzone).format('YYYY-MM-DD HH:mm:ss'),
                     });
   }
