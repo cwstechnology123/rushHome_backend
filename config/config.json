@@ -1,9 +1,9 @@
 {
   "development": {
-  "url" : "/growth-operating-system",
+  "url" : "/rushhome",
   "username": "root",
   "password": "",
-  "database": "growth-operating-system",
+  "database": "retscloud",
   "host": "127.0.0.1",
   "port": 3306,
   "dialect": "mysql",
@@ -14,10 +14,10 @@
   }
   },
   "test": {
-  "url" : "/growth-operating-system",
+  "url" : "/rushhome",
   "username": "root",
   "password": "",
-  "database": "growth-operating-system",
+  "database": "retscloud",
   "host": "127.0.0.1",
   "port": 3306,
   "dialect": "mysql",
@@ -28,7 +28,7 @@
   }
   },
   "production": {
-  "url" : "/growth-operating-system",
+  "url" : "/rushhome",
   "username": "debatest_debate",
   "password": "CL+OzPj4Ydpe",
   "database": "debatest_therapet",

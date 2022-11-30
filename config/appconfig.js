@@ -4,12 +4,12 @@ require('dotenv').config();
 module.exports = {
 	app: {
 		port: process.env.DEV_APP_PORT || 5001,
-		appName: process.env.APP_NAME || 'growth-operating-system-api',
+		appName: process.env.APP_NAME || 'rushhome_backend',
 		env: process.env.NODE_ENV || 'development',
 	},
 	db: {
 		port: process.env.DB_PORT || 3306,
-		database: process.env.DB_NAME || 'growth-operating-system',
+		database: process.env.DB_NAME || 'retscloud',
 		password: process.env.DB_PASS || '',
 		username: process.env.DB_USER || 'root',
 		host: process.env.DB_HOST || '127.0.0.1',
@@ -17,7 +17,7 @@ module.exports = {
 		logging: true,
 	},
 	winiston: {
-		logpath: '/growth-operating-system-api/logs/',
+		logpath: '/rushhome_backend/logs/',
 	},
 	auth: {
 		jwt_secret: process.env.JWT_SECRET,

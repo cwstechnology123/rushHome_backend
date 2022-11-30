@@ -17,7 +17,7 @@ User.generateUsername = (first_name) => {
 };
 
 User.create = (newUser, result) => {
-  sql.query("INSERT INTO gos_users SET ?", newUser, (err, res) => {
+  sql.query("INSERT INTO rc_users SET ?", newUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -30,7 +30,7 @@ User.create = (newUser, result) => {
 };
 
 User.findById = (userId, result) => {
-  sql.query(`SELECT * FROM gos_users WHERE id = ${userId}`, (err, res) => {
+  sql.query(`SELECT * FROM rc_users WHERE id = ${userId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -50,7 +50,7 @@ User.findById = (userId, result) => {
 
 //Find a user by email
 User.findByEmail = (email, result) => {
-  sql.query("SELECT * FROM gos_users WHERE email = '" + email + "'", (err, res) => {
+  sql.query("SELECT * FROM rc_users WHERE email = '" + email + "'", (err, res) => {
     if (err) {
       //console.log("error: ", err);
       result(err, null);
@@ -69,7 +69,7 @@ User.findByEmail = (email, result) => {
 };
 
 User.getAll = result => {
-  sql.query("SELECT u.* FROM gos_users u  ORDER BY u.id DESC", (err, res) => {
+  sql.query("SELECT u.* FROM rc_users u  ORDER BY u.id DESC", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -83,7 +83,7 @@ User.getAll = result => {
 
 User.updateById = (id, user, result) => {
   sql.query(
-    "UPDATE gos_users SET ? WHERE id = ?",
+    "UPDATE rc_users SET ? WHERE id = ?",
     [user, id],
     (err, res) => {
       if (err) {
@@ -105,7 +105,7 @@ User.updateById = (id, user, result) => {
 };
 
 User.remove = (id, result) => {
-  sql.query("DELETE FROM gos_users WHERE id = ?", id, (err, res) => {
+  sql.query("DELETE FROM rc_users WHERE id = ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -124,7 +124,7 @@ User.remove = (id, result) => {
 };
 
 User.removeAll = result => {
-  sql.query("DELETE FROM gos_users", (err, res) => {
+  sql.query("DELETE FROM rc_users", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -138,7 +138,7 @@ User.removeAll = result => {
 
 User.changeUserStatusById = (id, updateData, result) => {
   sql.query(
-    "UPDATE gos_users SET status=?,updated_date=? WHERE id = ?",
+    "UPDATE rc_users SET status=?,updated_date=? WHERE id = ?",
     [updateData.status,updateData.updated_date, id],
     (err, res) => {
       if (err) {
@@ -154,7 +154,7 @@ User.changeUserStatusById = (id, updateData, result) => {
 
 User.changePasswordById = (id, password, result) => {
   sql.query(
-    "UPDATE gos_users SET password=? WHERE id = ?",
+    "UPDATE rc_users SET password=? WHERE id = ?",
     [password, id],
     (err, res) => {
       if (err) {
@@ -204,15 +204,15 @@ User.ajaxUserList =  (tagDataobj, result)  => {
     }
   }
 
-  let sqlTotalDisplayQuery = "SELECT COUNT(u.id) AS searchNumRows FROM gos_users u WHERE  "+where;
+  let sqlTotalDisplayQuery = "SELECT COUNT(u.id) AS searchNumRows FROM rc_users u WHERE  "+where;
 
-  let sqlQuery = "SELECT u.* FROM gos_users u WHERE  "+where+" "+orderBy+" "+limit;
+  let sqlQuery = "SELECT u.* FROM rc_users u WHERE  "+where+" "+orderBy+" "+limit;
 
   //console.log(sqlQuery);
 
   const promiseUser = new Promise((resolve, reject) => {
 
-    sql.query("SELECT COUNT(id) AS numRows FROM gos_users u where "+where+"",async function (err, rows)  {
+    sql.query("SELECT COUNT(id) AS numRows FROM rc_users u where "+where+"",async function (err, rows)  {
       if (err) {
         //console.log("error: ", err);
         result(err, null);
@@ -302,7 +302,7 @@ User.ajaxUserList =  (tagDataobj, result)  => {
 
 // get selected options based on user id
 User.getOptionIdsByUserID = (userId, result) => {
-	sql.query("SELECT u.*, GROUP_CONCAT(DISTINCT sopt.option_id) AS optionIds FROM `gos_users` AS u LEFT JOIN `gos_120_growth_users_score_option` AS sopt ON u.id = sopt.user_id WHERE u.id = '"+ userId+"'", (err, res) => {
+	sql.query("SELECT u.*, GROUP_CONCAT(DISTINCT sopt.option_id) AS optionIds FROM `rc_users` AS u LEFT JOIN `gos_120_growth_users_score_option` AS sopt ON u.id = sopt.user_id WHERE u.id = '"+ userId+"'", (err, res) => {
 		if (err) {
 			//console.log("error: ", err);
 			result(err, null);

@@ -8,7 +8,7 @@ const Dashboard = function(user) {
 };
 
 Dashboard.countAllUser = result => {
-  sql.query("SELECT IFNULL(count(u.id), 0) As total_users FROM gos_users u where u.user_type!=1 ORDER BY u.id DESC", (err, res) => {
+  sql.query("SELECT IFNULL(count(u.id), 0) As total_users FROM rc_users u where u.user_type!=1 ORDER BY u.id DESC", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

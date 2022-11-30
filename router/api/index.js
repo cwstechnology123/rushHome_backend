@@ -6,4 +6,6 @@ router.use('/users', require('./usersRouter'));
 
 router.use('/', require('./authRouter'));
 
+router.use('/properties', require('./propertiesRouter'));
+
 module.exports = router;

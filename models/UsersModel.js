@@ -1,13 +1,5 @@
 
 const sql = require("../config/db_connection.js");
-const _ = require('lodash');
-const RequestHandler = require('../utils/RequestHandler');
-const Logger = require('../utils/logger');
-
-
-const logger = new Logger();
-const errHandler = new RequestHandler(logger);
-
 // constructor
 const Users = function(options) {
   this.limit = 20;
@@ -31,7 +23,7 @@ Users.updateUserObj = (currentObj, newObj) => {
 
 //Create a new user
 Users.create = (newUser, result) => {
-  sql.query("INSERT INTO gos_users SET ?", newUser, (err, res) => {
+  sql.query("INSERT INTO rc_users SET ?", newUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -47,7 +39,7 @@ Users.create = (newUser, result) => {
 
 //Find by custom options
 Users.getByCustomOptions = (options, result) => {
-  sql.query("SELECT * FROM gos_users u "+options, (err, res) => {
+  sql.query("SELECT * FROM rc_users u "+options, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -68,7 +60,7 @@ Users.getByCustomOptions = (options, result) => {
 //Update a user object
 Users.updateById = (id, user, result) => {
   sql.query(
-    "UPDATE gos_users SET ? WHERE id = ?",
+    "UPDATE rc_users SET ? WHERE id = ?",
     [user, id],
     (err, res) => {
       if (err) {
@@ -85,7 +77,7 @@ Users.updateById = (id, user, result) => {
 
 //Find a user by id
 Users.findById = (userId, result) => {
-  sql.query("SELECT * FROM gos_users u WHERE u.id = '"+ userId+"'", (err, res) => {
+  sql.query("SELECT * FROM rc_users u WHERE u.id = '"+ userId+"'", (err, res) => {
     if (err) {
       //console.log("error: ", err);
       result(err, null);
@@ -104,7 +96,7 @@ Users.findById = (userId, result) => {
 };
 
 Users.getAll = result => {
-  sql.query("SELECT * FROM gos_users", (err, res) => {
+  sql.query("SELECT * FROM rc_users", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -117,7 +109,7 @@ Users.getAll = result => {
 };
 
 Users.remove = (id, result) => {
-  sql.query("DELETE FROM gos_users WHERE id = ?", id, (err, res) => {
+  sql.query("DELETE FROM rc_users WHERE id = ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -135,23 +127,10 @@ Users.remove = (id, result) => {
   });
 };
 
-Users.removeAll = result => {
-  sql.query("DELETE FROM gos_users", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} users`);
-    result(null, res);
-  });
-};
-
 //Find a verify otp by id,otp
 Users.verifyOtp = (userId,otp,result) => {
 
-  sql.query('SELECT id,otp FROM gos_users WHERE id = "'+userId+'" AND otp="'+otp+'"', (err, res) => {
+  sql.query('SELECT id,otp FROM rc_users WHERE id = "'+userId+'" AND otp="'+otp+'"', (err, res) => {
     if (err) {
       //console.log("error: ", err);
       result(err, null);
@@ -171,7 +150,7 @@ Users.verifyOtp = (userId,otp,result) => {
 
 Users.updateOtp = (id, new_otp, result) => {
   sql.query(
-    "UPDATE gos_users SET otp=? WHERE id = ?",
+    "UPDATE rc_users SET otp=? WHERE id = ?",
     [new_otp, id],
     (err, res) => {
       if (err) {
@@ -187,7 +166,7 @@ Users.updateOtp = (id, new_otp, result) => {
 
 //check email verification code by id
 Users.checkEmailVerificationCode = (id, result) => {
-  sql.query("SELECT otp FROM gos_users WHERE id = '" + id + "'", (err, res) => {
+  sql.query("SELECT otp FROM rc_users WHERE id = '" + id + "'", (err, res) => {
     if (err) {
       //console.log("error: ", err);
       result(err, null);
@@ -211,10 +190,10 @@ Users.getUsers = (page,numPerPage,result) => {
   var limit = "  LIMIT  "+skip + ',' + numPerPage;
   console.log(limit);
 
-  let sqlQuery = "SELECT * from gos_users "+limit;
+  let sqlQuery = "SELECT * from rc_users "+limit;
 
   //console.log(sqlQuery);
-  sql.query("SELECT COUNT(u.id) AS numRows FROM gos_users u",async function (err, rows)  {
+  sql.query("SELECT COUNT(u.id) AS numRows FROM rc_users u",async function (err, rows)  {
     if (err) {
       //console.log("error: ", err);
       result(err, null);
@@ -260,7 +239,7 @@ Users.getUsers = (page,numPerPage,result) => {
 
 Users.changeUserStatus = (id, status, result) => {
   sql.query(
-    "UPDATE gos_users SET status=? WHERE id = ?",
+    "UPDATE rc_users SET status=? WHERE id = ?",
     [status, id],
     (err, res) => {
       if (err) {
