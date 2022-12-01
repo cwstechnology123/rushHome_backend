@@ -4,8 +4,8 @@
   "description": "RushHome APIs and Admin panel",
   "main": "server/index.js",
   "scripts": {
-    "test": "npm start",
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "author": "",
   "license": "ISC",
