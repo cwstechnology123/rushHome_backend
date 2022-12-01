@@ -46,4 +46,34 @@ PropertiesController.getProperties = async (req, res, next) => {
 	}
 }
 
+/**
+ * 
+ * getPropertyById:
+ */
+ PropertiesController.getPropertyById = async (req, res, next) => {
+    let params = req.params;
+	try {
+        PropertiesModel.getPropertyById(params.id, async function(err, result) {
+            if(err) {
+                res.status(500).json({
+                    type: 'bad request', message: err,
+                });
+            }else {
+                const propertiesInfo = await result;
+                if(propertiesInfo.kind === 'not_found'){
+                    return requestHandler.sendSuccess(res, 'Data Extracted')({ properties : "", message : 'Not found.'});
+                }
+                else{
+                    PropertiesModel.updatePropertiesObj(propertiesInfo.list, async function(objCallBackFun){
+                        let properties = await objCallBackFun;
+                        return requestHandler.sendSuccess(res, 'Data Extracted')({ propertyDetails : properties[0] });
+                    })
+                }
+            }
+        })
+	} catch (error) {
+		return requestHandler.sendError(req, res, error);
+	}
+}
+
 module.exports = PropertiesController;

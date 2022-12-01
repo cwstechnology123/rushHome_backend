@@ -8,16 +8,10 @@ const requestHandler = new RequestHandler(logger);
 
 function verifyAPIKey(req, res, next) {
 	try {
-		if (_.isUndefined(req.headers.authorization)) {
+		if (_.isUndefined(req.headers["x-api-key"])) {
 			requestHandler.throwError(401, 'Unauthorized', 'Not Authorized to access this resource!')();
 		}
-		const Basic = req.headers.authorization.split(' ')[0];
-
-		if (!Basic || Basic !== 'Basic') {
-			requestHandler.throwError(401, 'Unauthorized', 'Not Authorized to access this resource!')();
-		}
-
-		const apiKey = req.headers.authorization.split(' ')[1];
+		const apiKey = req.headers["x-api-key"];
 
 		if (!apiKey) {
 			requestHandler.throwError(401, 'Unauthorized', 'Not Authorized to access this resource!')();

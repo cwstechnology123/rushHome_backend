@@ -120,29 +120,28 @@ Properties.updatePropertiesObj = (currentObj,PropertiesCallBackFun) => {
 
 //get properties
 Properties.getProperties = (params, page, numPerPage, result) => {
+  let skip = (page-1) * numPerPage;
+  let limit = "  LIMIT  "+skip + ',' + numPerPage;
 
-let skip = (page-1) * numPerPage;
-let limit = "  LIMIT  "+skip + ',' + numPerPage;
-
-let sqlQuery ='';
-let subQuery ='';
-let cond='';
-
-
-if(params.type && params.type != 'all')
-cond = " AND field_County = '"+params.type+"'";
-
-search_key = params.search_key && params.search_key.replace(/\+/g, " ");
-if(search_key)
-cond += " AND ((LOWER(field_County)) REGEXP '(^|[[:space:]])" +search_key.toLowerCase()+ "([[:space:]]|$)')";
+  let sqlQuery ='';
+  let subQuery ='';
+  let cond='';
 
 
-subQuery = "SELECT rd.id,field_ListingId,(SELECT GROUP_CONCAT(DISTINCT Image) FROM `rc_images` AS ri WHERE rd.field_ListAgentKey = ri.MLS_ID) AS Images,field_ListingAgreementType, field_ListingServiceType,field_ListingSourceBusinessPartner,field_TotalPublicOpenHouses,field_totalVirtualTours,field_PublicRemarks, field_MlsStatus,field_ClosePrice,field_ListPrice,field_OriginalListPrice,field_DaysOnMarket,field_MLSListDate,field_PriceChangeTimestamp, field_OnMarketDate,field_AssociationAmenities,field_City,field_Country,field_County, field_IncorporatedCityName, field_StreetNumber,field_PostalCode, field_StateOrProvince, field_StreetName,field_UnparsedAddress,field_FullStreetAddress,field_ListingLocale,field_MLSAreaMajor,field_Directions,field_Latitude,field_Longitude,field_ListAgentMlsId,field_ListAgentEmail,field_ListAgentFullName,field_ListAgentKey,field_ListAgentPreferredPhone,field_ListAgentStateLicenseNumber,field_ElementarySchool,field_SchoolDistrictName,field_SyndicateToOption,field_VirtualTourURLUnbranded,field_AboveGradeFinishedArea,field_AboveGradeFinishedAreaUnits,field_BelowGradeFinishedArea,field_BelowGradeFinishedAreaUnits,field_Basement,field_BuilderName,field_Cooling,field_ExteriorFeatures, field_Flooring,field_AccessibilityFeatures,field_GarageYN,field_Heating,field_HeatingYN,field_InteriorFeatures,field_LivingArea, field_LivingAreaUnits,field_OpenParkingSpaces,field_ParkingFeatures, field_PropertyCondition,field_ParkingTypes,field_GarageTYpe,field_TotalGarageAndParkingSpaces,field_AreaTotal,field_Zoning,field_SaleType,field_Pool,field_PropertyType,field_WaterfrontYN,field_Appliances,field_BathroomsTotalInteger,field_BathroomsFull,field_BathroomsHalf,field_BedroomsTotal,field_ListPicture2URL,field_ListPicture3URL,field_ListPictureURL,field_RoomsTotal,field_PricePerSquareFoot FROM rc_data AS rd WHERE 1=1 "+cond+" ORDER BY rd.id DESC";
+  if(params.type && params.type != 'all')
+  cond = " AND field_County = '"+params.type+"'";
 
-sqlQuery = subQuery+" "+limit;
+  search_key = params.search_key && params.search_key.replace(/\+/g, " ");
+  if(search_key)
+  cond += " AND ((LOWER(field_County)) REGEXP '(^|[[:space:]])" +search_key.toLowerCase()+ "([[:space:]]|$)')";
 
-//console.log(sqlQuery);
-sql.query("SELECT count(*) as numRows FROM ("+subQuery+")t",async function (err, rows)  {
+
+  subQuery = "SELECT rd.id,field_ListingId,(SELECT GROUP_CONCAT(DISTINCT Image) FROM `rc_images` AS ri WHERE rd.field_ListAgentKey = ri.MLS_ID) AS Images,field_ListingAgreementType, field_ListingServiceType,field_ListingSourceBusinessPartner,field_TotalPublicOpenHouses,field_totalVirtualTours,field_PublicRemarks, field_MlsStatus,field_ClosePrice,field_ListPrice,field_OriginalListPrice,field_DaysOnMarket,field_MLSListDate,field_PriceChangeTimestamp, field_OnMarketDate,field_AssociationAmenities,field_City,field_Country,field_County, field_IncorporatedCityName, field_StreetNumber,field_PostalCode, field_StateOrProvince, field_StreetName,field_UnparsedAddress,field_FullStreetAddress,field_ListingLocale,field_MLSAreaMajor,field_Directions,field_Latitude,field_Longitude,field_ListAgentMlsId,field_ListAgentEmail,field_ListAgentFullName,field_ListAgentKey,field_ListAgentPreferredPhone,field_ListAgentStateLicenseNumber,field_ElementarySchool,field_SchoolDistrictName,field_SyndicateToOption,field_VirtualTourURLUnbranded,field_AboveGradeFinishedArea,field_AboveGradeFinishedAreaUnits,field_BelowGradeFinishedArea,field_BelowGradeFinishedAreaUnits,field_Basement,field_BuilderName,field_Cooling,field_ExteriorFeatures, field_Flooring,field_AccessibilityFeatures,field_GarageYN,field_Heating,field_HeatingYN,field_InteriorFeatures,field_LivingArea, field_LivingAreaUnits,field_OpenParkingSpaces,field_ParkingFeatures, field_PropertyCondition,field_ParkingTypes,field_GarageTYpe,field_TotalGarageAndParkingSpaces,field_AreaTotal,field_Zoning,field_SaleType,field_Pool,field_PropertyType,field_WaterfrontYN,field_Appliances,field_BathroomsTotalInteger,field_BathroomsFull,field_BathroomsHalf,field_BedroomsTotal,field_ListPicture2URL,field_ListPicture3URL,field_ListPictureURL,field_RoomsTotal,field_PricePerSquareFoot FROM rc_data AS rd WHERE 1=1 "+cond+" ORDER BY rd.id DESC";
+
+  sqlQuery = subQuery+" "+limit;
+
+  //console.log(sqlQuery);
+  sql.query("SELECT count(*) as numRows FROM ("+subQuery+")t",async function (err, rows)  {
     if (err) {
       result(err, null);
       return;
@@ -180,6 +179,24 @@ sql.query("SELECT count(*) as numRows FROM ("+subQuery+")t",async function (err,
           return;
     }
 
+  });
+};
+
+//Find a property details by id
+Properties.getPropertyById = (propertyId, result) => {
+  sql.query("SELECT rd.id,field_ListingId,(SELECT GROUP_CONCAT(DISTINCT Image) FROM `rc_images` AS ri WHERE rd.field_ListAgentKey = ri.MLS_ID) AS Images,field_ListingAgreementType, field_ListingServiceType,field_ListingSourceBusinessPartner,field_TotalPublicOpenHouses,field_totalVirtualTours,field_PublicRemarks, field_MlsStatus,field_ClosePrice,field_ListPrice,field_OriginalListPrice,field_DaysOnMarket,field_MLSListDate,field_PriceChangeTimestamp, field_OnMarketDate,field_AssociationAmenities,field_City,field_Country,field_County, field_IncorporatedCityName, field_StreetNumber,field_PostalCode, field_StateOrProvince, field_StreetName,field_UnparsedAddress,field_FullStreetAddress,field_ListingLocale,field_MLSAreaMajor,field_Directions,field_Latitude,field_Longitude,field_ListAgentMlsId,field_ListAgentEmail,field_ListAgentFullName,field_ListAgentKey,field_ListAgentPreferredPhone,field_ListAgentStateLicenseNumber,field_ElementarySchool,field_SchoolDistrictName,field_SyndicateToOption,field_VirtualTourURLUnbranded,field_AboveGradeFinishedArea,field_AboveGradeFinishedAreaUnits,field_BelowGradeFinishedArea,field_BelowGradeFinishedAreaUnits,field_Basement,field_BuilderName,field_Cooling,field_ExteriorFeatures, field_Flooring,field_AccessibilityFeatures,field_GarageYN,field_Heating,field_HeatingYN,field_InteriorFeatures,field_LivingArea, field_LivingAreaUnits,field_OpenParkingSpaces,field_ParkingFeatures, field_PropertyCondition,field_ParkingTypes,field_GarageTYpe,field_TotalGarageAndParkingSpaces,field_AreaTotal,field_Zoning,field_SaleType,field_Pool,field_PropertyType,field_WaterfrontYN,field_Appliances,field_BathroomsTotalInteger,field_BathroomsFull,field_BathroomsHalf,field_BedroomsTotal,field_ListPicture2URL,field_ListPicture3URL,field_ListPictureURL,field_RoomsTotal,field_PricePerSquareFoot FROM rc_data AS rd WHERE rd.id = '"+ propertyId +"' ", (err, res) => {
+    if (err) {
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      result(null, { result: 'success', list: res });
+      return;
+    }
+
+    // not found with the id
+    result(null, { kind: "not_found" });
   });
 };
 
