@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const PropertiesController = require('../../controllers/PropertiesController');
-const auth = require('../../utils/auth');
+const apiAuth = require('../../utils/apiAuth');
 
 /**
  * 
  * /api/properties/all:
  */
-router.get('/:type', PropertiesController.getProperties);
+router.get('/:type', apiAuth.isAuthenticated, PropertiesController.getProperties);
 
 module.exports = router;
