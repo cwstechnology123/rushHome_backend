@@ -6,7 +6,7 @@ const apiAuth = require('../../utils/apiAuth');
  * 
  * /api/properties/all:
  */
-router.get('/:type', apiAuth.isAuthenticated, PropertiesController.getProperties);
+router.get('/:type/:page_record/:page_limit', apiAuth.isAuthenticated, PropertiesController.getProperties);
 
 /**
  * 
